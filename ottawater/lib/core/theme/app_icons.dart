@@ -1,4 +1,3 @@
-/// Central place for all app icon asset paths
 class AppIcons {
   AppIcons._(); // prevents instantiation
 

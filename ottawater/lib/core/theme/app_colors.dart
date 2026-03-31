@@ -7,4 +7,5 @@ class AppColors {
   static const textcolor = Color.fromARGB(255, 13, 111, 115);
   static const accent1 = Color.fromARGB(255, 8, 85, 88);
   static const accent2 = Color.fromARGB(255, 6, 54, 61);
+  static const button = Color.fromARGB(255, 132, 185, 192);
 }

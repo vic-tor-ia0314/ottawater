@@ -8,64 +8,159 @@ class HomePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: const Center(
-        child: Text("TEST SCREEN"),
-      ),
-    );
-  }
-}
-      
-      
-      
-/*    
       appBar: AppBar(
-        backgroundColor: AppColors.primary,
+        title: const Text('OttaWater', style: TextStyle(color: AppColors.textcolor)),
         centerTitle: true,
-
-        leading: Padding(
-          padding: const EdgeInsets.all(8.0),
-          child: Image.asset(AppIcons.logo),
-        ),
-
-        title: const Text(
-          'Welcome',
-          style: TextStyle(color: AppColors.textcolor),
-        ),
-
+        backgroundColor: AppColors.primary,
         actions: [
           Padding(
-            padding: const EdgeInsets.only(right: 8.0),
+            padding: const EdgeInsets.only(right: 12),
             child: TextButton(
-              onPressed: () {},
               style: TextButton.styleFrom(
-                backgroundColor: AppColors.secondary,
-                padding: const EdgeInsets.symmetric(
-                  horizontal: 12,
-                  vertical: 8,
-                ),
+                backgroundColor: AppColors.button,
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(8),
                 ),
               ),
-              child: const Text(
-                'Button',
-                style: TextStyle(color: AppColors.textcolor),
+              onPressed: () {},
+              child: Text(
+                "DONATE",
+                style: TextStyle(
+                  color: AppColors.textcolor,
+                  fontSize: 16,
+                  fontWeight: FontWeight.bold,
+                ),
               ),
             ),
           ),
         ],
       ),
+      body: Column(
+        children: [
+          UpperHalfCenteredText(text: "Welcome!", fontSize: 28),
+    
+          BottomButtons(
+            spacing: 60,
+            alignment: MainAxisAlignment.end,
+            leftButton: ElevatedButton(
+              onPressed: () {},
+                style: ElevatedButton.styleFrom(
+                backgroundColor: AppColors.button,
+                foregroundColor: AppColors.textcolor,
+                padding: EdgeInsets.symmetric(
+                  horizontal: 16,
+                  vertical: 16,
+                ),
+                minimumSize: Size(120, 50),
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(8),
+                ),
+              ),
+              child: Text("log an activity", style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold)),
+            ),
+            rightButton: ElevatedButton(
+              onPressed: () {},
+                style: ElevatedButton.styleFrom(
+                backgroundColor: AppColors.button,
+                foregroundColor: AppColors.textcolor,
+                padding: EdgeInsets.symmetric(
+                  horizontal: 16,
+                  vertical: 16,
+                ),
+                minimumSize: Size(120, 50),
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(8),
+                ),
+              ),
+              child: Text("what can I do?", style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold)),
+            ),
+          ),
+        ],
+      ),
 
-      body: const Center(
+      bottomNavigationBar: BottomNavigationBar(
+        backgroundColor: AppColors.primary,
+        unselectedItemColor: AppColors.textcolor,
+        selectedItemColor: AppColors.textcolor,
+        items: [
+          const BottomNavigationBarItem(
+            icon: Icon(Icons.home),
+            label: "Home",
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.map),
+            label: "Maps",
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.handshake),
+            label: "Opportunities",
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+class UpperHalfCenteredText extends StatelessWidget {
+  final String text;
+  final double fontSize;
+
+  const UpperHalfCenteredText({
+    super.key,
+    required this.text,
+    this.fontSize = 24,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return Expanded(
+      child: Align(
+        alignment: Alignment(0, -0.4),
         child: Text(
-          'Welcome!',
+          text,
           style: TextStyle(
-            fontSize: 24,
-            color: AppColors.textcolor,
+            fontSize: fontSize,
+            color: AppColors.textcolor
           ),
         ),
       ),
     );
   }
 }
-*/
+
+class BottomButtons extends StatelessWidget {
+  final Widget leftButton;
+  final Widget rightButton;
+  final double spacing;
+  final MainAxisAlignment alignment;
+
+  const BottomButtons({
+    super.key,
+    required this.leftButton,
+    required this.rightButton,
+    this.spacing = 16,
+    this.alignment = MainAxisAlignment.end, // default = bottom
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return Expanded(
+      child: Padding(
+        padding: const EdgeInsets.fromLTRB(16, 16, 16, 150),
+        child: Column(
+          mainAxisAlignment: alignment, // controls vertical position
+          children: [
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                leftButton,
+                SizedBox(width: spacing),
+                rightButton,
+              ],
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}
