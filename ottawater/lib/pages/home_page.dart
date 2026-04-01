@@ -9,7 +9,16 @@ class HomePage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('OttaWater', style: TextStyle(color: AppColors.textcolor)),
+        toolbarHeight: 80,
+        leadingWidth: 80,
+        leading: IconButton(
+          icon: Image.asset(AppIcons.logo,
+            width: 75,
+            height: 75,
+          ),
+          onPressed: () {},
+        ),
+        title: const Text('OttaWater', style: TextStyle(color: AppColors.textcolor, fontSize: 28)),
         centerTitle: true,
         backgroundColor: AppColors.primary,
         actions: [
@@ -37,7 +46,7 @@ class HomePage extends StatelessWidget {
       ),
       body: Column(
         children: [
-          UpperHalfCenteredText(text: "Welcome!", fontSize: 28),
+          UpperHalfCenteredText(text: "Welcome!", fontSize: 35),
     
           BottomButtons(
             spacing: 60,
@@ -83,16 +92,25 @@ class HomePage extends StatelessWidget {
         unselectedItemColor: AppColors.textcolor,
         selectedItemColor: AppColors.textcolor,
         items: [
-          const BottomNavigationBarItem(
-            icon: Icon(Icons.home),
+          BottomNavigationBarItem(
+            icon: Image.asset(AppIcons.home,
+              width: 50,
+              height: 50,
+            ),
             label: "Home",
           ),
           BottomNavigationBarItem(
-            icon: Icon(Icons.map),
+            icon: Image.asset(AppIcons.maps,
+              width: 50,
+              height: 50,
+            ),
             label: "Maps",
           ),
           BottomNavigationBarItem(
-            icon: Icon(Icons.handshake),
+            icon: Image.asset(AppIcons.opps,
+              width: 50,
+              height: 50,
+            ),
             label: "Opportunities",
           ),
         ],
