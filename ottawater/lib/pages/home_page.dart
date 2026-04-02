@@ -51,7 +51,7 @@ class HomePage extends StatelessWidget {
           BottomButtons(
             spacing: 60,
             alignment: MainAxisAlignment.end,
-            leftButton: ElevatedButton(
+            leftButton: ElevatedButton.icon(
               onPressed: () {},
                 style: ElevatedButton.styleFrom(
                 backgroundColor: AppColors.button,
@@ -65,9 +65,16 @@ class HomePage extends StatelessWidget {
                   borderRadius: BorderRadius.circular(8),
                 ),
               ),
-              child: Text("log an activity", style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold)),
+              icon: Icon(Icons.add, size: 28),
+              label: Text(
+                "Log an activity",
+                style: TextStyle(
+                  fontSize: 16,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
             ),
-            rightButton: ElevatedButton(
+            rightButton: ElevatedButton.icon(
               onPressed: () {},
                 style: ElevatedButton.styleFrom(
                 backgroundColor: AppColors.button,
@@ -81,7 +88,14 @@ class HomePage extends StatelessWidget {
                   borderRadius: BorderRadius.circular(8),
                 ),
               ),
-              child: Text("what can I do?", style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold)),
+              icon: Icon(Icons.question_mark, size: 28),
+              label: Text(
+                "What can I do?",
+                style: TextStyle(
+                  fontSize: 16,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
             ),
           ),
         ],
