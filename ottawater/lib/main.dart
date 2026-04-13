@@ -1,18 +1,24 @@
 import 'package:flutter/material.dart';
 import 'package:ottawater/pages/home_page.dart';
+import 'package:ottawater/pages/maps.dart';
+import 'package:ottawater/pages/opps.dart';
 
 void main() {
-  runApp(const MainApp());
+  runApp(MyApp());
 }
 
-class MainApp extends StatelessWidget {
-  const MainApp({super.key});
-
+class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      home: const HomePage(),
+      initialRoute: '/home',
+
+      routes: {
+        '/home': (context) => HomePage(),
+        '/maps': (context) => BeachMapPage(),
+        '/opportunities': (context) => OpportunitiesPage(),
+      },
     );
   }
 }

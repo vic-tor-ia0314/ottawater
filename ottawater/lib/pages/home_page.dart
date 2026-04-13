@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:ottawater/core/theme/app_colors.dart';
 import 'package:ottawater/core/theme/app_icons.dart';
+import 'bottom_nav_bar.dart';
 
 class HomePage extends StatelessWidget {
   const HomePage({super.key});
@@ -101,34 +102,7 @@ class HomePage extends StatelessWidget {
         ],
       ),
 
-      bottomNavigationBar: BottomNavigationBar(
-        backgroundColor: AppColors.primary,
-        unselectedItemColor: AppColors.textcolor,
-        selectedItemColor: AppColors.textcolor,
-        items: [
-          BottomNavigationBarItem(
-            icon: Image.asset(AppIcons.home,
-              width: 50,
-              height: 50,
-            ),
-            label: "Home",
-          ),
-          BottomNavigationBarItem(
-            icon: Image.asset(AppIcons.maps,
-              width: 50,
-              height: 50,
-            ),
-            label: "Maps",
-          ),
-          BottomNavigationBarItem(
-            icon: Image.asset(AppIcons.opps,
-              width: 50,
-              height: 50,
-            ),
-            label: "Opportunities",
-          ),
-        ],
-      ),
+      bottomNavigationBar: AppBottomNav(currentIndex: 0),
     );
   }
 }
