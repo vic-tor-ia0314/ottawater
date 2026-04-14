@@ -3,8 +3,25 @@ import 'package:ottawater/core/theme/app_colors.dart';
 import 'package:ottawater/core/theme/app_icons.dart';
 import 'bottom_nav_bar.dart';
 
-class HomePage extends StatelessWidget {
+class HomePage extends StatefulWidget {
   const HomePage({super.key});
+
+  @override
+  State<HomePage> createState() => _HomePageState();
+}
+
+class _HomePageState extends State<HomePage> {
+  double levelProgress = 0.0; // 0.0 → 1.0 (0% → 100%)
+
+  void logActivity() {
+    setState(() {
+      levelProgress += 0.1; // increases by 10% each click
+
+      if (levelProgress > 1.0) {
+        levelProgress = 1.0; // cap at 100%
+      }
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -13,13 +30,20 @@ class HomePage extends StatelessWidget {
         toolbarHeight: 80,
         leadingWidth: 80,
         leading: IconButton(
-          icon: Image.asset(AppIcons.logo,
+          icon: Image.asset(
+            AppIcons.logo,
             width: 75,
             height: 75,
           ),
           onPressed: () {},
         ),
-        title: const Text('OttaWater', style: TextStyle(color: AppColors.textcolor, fontSize: 28)),
+        title: const Text(
+          'OttaWater',
+          style: TextStyle(
+            color: AppColors.textcolor,
+            fontSize: 28,
+          ),
+        ),
         centerTitle: true,
         backgroundColor: AppColors.primary,
         actions: [
@@ -45,56 +69,92 @@ class HomePage extends StatelessWidget {
           ),
         ],
       ),
+
       body: Column(
         children: [
-          UpperHalfCenteredText(text: "Welcome!", fontSize: 35),
-    
-          BottomButtons(
-            spacing: 60,
-            alignment: MainAxisAlignment.end,
-            leftButton: ElevatedButton.icon(
-              onPressed: () {},
-                style: ElevatedButton.styleFrom(
-                backgroundColor: AppColors.button,
-                foregroundColor: AppColors.textcolor,
-                padding: EdgeInsets.symmetric(
-                  horizontal: 16,
-                  vertical: 16,
-                ),
-                minimumSize: Size(120, 50),
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(8),
-                ),
-              ),
-              icon: Icon(Icons.add, size: 28),
-              label: Text(
-                "Log an activity",
-                style: TextStyle(
-                  fontSize: 16,
-                  fontWeight: FontWeight.bold,
-                ),
-              ),
+          const SizedBox(height: 40),
+          Text(
+            "Welcome!",
+            style: TextStyle(
+              fontSize: 35,
+              color: AppColors.textcolor,
             ),
-            rightButton: ElevatedButton.icon(
-              onPressed: () {},
-                style: ElevatedButton.styleFrom(
-                backgroundColor: AppColors.button,
-                foregroundColor: AppColors.textcolor,
-                padding: EdgeInsets.symmetric(
-                  horizontal: 16,
-                  vertical: 16,
+          ),
+
+          const SizedBox(height: 12),
+
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 40),
+            child: Column(
+              children: [
+                LinearProgressIndicator(
+                  value: levelProgress,
+                  backgroundColor: Colors.grey.shade300,
+                  color: Colors.green,
+                  minHeight: 10,
                 ),
-                minimumSize: Size(120, 50),
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(8),
+                const SizedBox(height: 8),
+                Text(
+                  "Level Progress: ${(levelProgress * 100).toInt()}%",
+                  style: const TextStyle(
+                    color: AppColors.textcolor,
+                  ),
+                ),
+              ],
+            ),
+          ),
+
+          const SizedBox(height: 30),
+          Expanded(
+            child: BottomButtons(
+              spacing: 60,
+              alignment: MainAxisAlignment.end,
+
+              leftButton: ElevatedButton.icon(
+                onPressed: logActivity,
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: AppColors.button,
+                  foregroundColor: AppColors.textcolor,
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: 16,
+                    vertical: 16,
+                  ),
+                  minimumSize: const Size(120, 50),
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(8),
+                  ),
+                ),
+                icon: const Icon(Icons.add, size: 28),
+                label: const Text(
+                  "Log an activity",
+                  style: TextStyle(
+                    fontSize: 16,
+                    fontWeight: FontWeight.bold,
+                  ),
                 ),
               ),
-              icon: Icon(Icons.question_mark, size: 28),
-              label: Text(
-                "What can I do?",
-                style: TextStyle(
-                  fontSize: 16,
-                  fontWeight: FontWeight.bold,
+
+              rightButton: ElevatedButton.icon(
+                onPressed: () {},
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: AppColors.button,
+                  foregroundColor: AppColors.textcolor,
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: 16,
+                    vertical: 16,
+                  ),
+                  minimumSize: const Size(120, 50),
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(8),
+                  ),
+                ),
+                icon: const Icon(Icons.question_mark, size: 28),
+                label: const Text(
+                  "What can I do?",
+                  style: TextStyle(
+                    fontSize: 16,
+                    fontWeight: FontWeight.bold,
+                  ),
                 ),
               ),
             ),
@@ -106,7 +166,6 @@ class HomePage extends StatelessWidget {
     );
   }
 }
-
 class UpperHalfCenteredText extends StatelessWidget {
   final String text;
   final double fontSize;

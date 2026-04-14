@@ -1,16 +1,47 @@
 import 'package:flutter/material.dart';
-import 'bottom_nav_bar.dart';
+import 'opps_processing.dart';
 
-class OpportunitiesPage extends StatefulWidget {
+class OpportunitiesPage extends StatelessWidget {
   const OpportunitiesPage({super.key});
 
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
-      bottomNavigationBar: AppBottomNav(currentIndex: 2),
+      appBar: AppBar(
+        title: const Text("Volunteer Opportunities"),
+      ),
+
+      body: FutureBuilder(
+        future: fetchOpportunities(),
+        builder: (context, snapshot) {
+          if (snapshot.connectionState == ConnectionState.waiting) {
+            return const Center(child: CircularProgressIndicator());
+          }
+
+          if (snapshot.hasError) {
+            return const Center(
+              child: Text("Failed to load opportunities"),
+            );
+          }
+
+          final items = snapshot.data ?? [];
+
+          return ListView.builder(
+            itemCount: items.length,
+            itemBuilder: (context, index) {
+              final item = items[index];
+
+              return Card(
+                margin: const EdgeInsets.all(10),
+                child: ListTile(
+                  title: Text(item.title),
+                  subtitle: Text(item.description),
+                ),
+              );
+            },
+          );
+        },
+      ),
     );
   }
-
-  @override
-  // ignore: no_logic_in_create_state
-  State<StatefulWidget> createState() => throw UnimplementedError();
 }

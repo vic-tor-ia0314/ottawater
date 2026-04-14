@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:ottawater/core/theme/app_colors.dart';
 import 'bottom_nav_bar.dart';
 import 'package:flutter/services.dart' show rootBundle;
 import 'package:flutter_map/flutter_map.dart';
@@ -168,7 +169,7 @@ class _BeachMapPageState extends State<BeachMapPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text("Ottawa Beaches Water Quality Map")),
+      appBar: AppBar(title: const Text("Ottawa Beaches Water Quality Map", style: TextStyle(color: AppColors.textcolor))),
       body: FlutterMap(
         options: MapOptions(
           initialCenter: LatLng(45.4215, -75.6972),
