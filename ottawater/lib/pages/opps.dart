@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'opps_processing.dart';
+import 'bottom_nav_bar.dart';
 
 class OpportunitiesPage extends StatelessWidget {
   const OpportunitiesPage({super.key});
@@ -42,6 +43,7 @@ class OpportunitiesPage extends StatelessWidget {
           );
         },
       ),
+      bottomNavigationBar: const AppBottomNav(),
     );
   }
 }

@@ -183,7 +183,7 @@ class _BeachMapPageState extends State<BeachMapPage> {
           MarkerLayer(markers: markers),
         ],
       ),
-      bottomNavigationBar: AppBottomNav(currentIndex: 1),
+      bottomNavigationBar: const AppBottomNav(),
     );
   }
 }

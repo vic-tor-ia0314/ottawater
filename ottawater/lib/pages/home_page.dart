@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:ottawater/core/theme/app_colors.dart';
 import 'package:ottawater/core/theme/app_icons.dart';
+import 'package:ottawater/pages/articles.dart';
 import 'bottom_nav_bar.dart';
 import 'package:url_launcher/url_launcher.dart';
 
@@ -20,14 +21,14 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-  double levelProgress = 0.0; // 0.0 → 1.0 (0% → 100%)
+  double levelProgress = 0.0; 
 
   void logActivity() {
     setState(() {
-      levelProgress += 0.1; // increases by 10% each click
+      levelProgress += 0.1; 
 
       if (levelProgress > 1.0) {
-        levelProgress = 1.0; // cap at 100%
+        levelProgress = 1.0;
       }
     });
   }
@@ -146,7 +147,14 @@ class _HomePageState extends State<HomePage> {
               ),
 
               rightButton: ElevatedButton.icon(
-                onPressed: () {},
+                onPressed: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => const WhatCanIDo(),
+                    ),
+                  );
+                },
                 style: ElevatedButton.styleFrom(
                   backgroundColor: AppColors.button,
                   foregroundColor: AppColors.textcolor,
@@ -172,8 +180,7 @@ class _HomePageState extends State<HomePage> {
           ),
         ],
       ),
-
-      bottomNavigationBar: AppBottomNav(currentIndex: 0),
+      bottomNavigationBar: const AppBottomNav(),
     );
   }
 }
@@ -215,7 +222,7 @@ class BottomButtons extends StatelessWidget {
     required this.leftButton,
     required this.rightButton,
     this.spacing = 16,
-    this.alignment = MainAxisAlignment.end, // default = bottom
+    this.alignment = MainAxisAlignment.end,
   });
 
   @override
@@ -224,7 +231,7 @@ class BottomButtons extends StatelessWidget {
       child: Padding(
         padding: const EdgeInsets.fromLTRB(16, 16, 16, 150),
         child: Column(
-          mainAxisAlignment: alignment, // controls vertical position
+          mainAxisAlignment: alignment,
           children: [
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
