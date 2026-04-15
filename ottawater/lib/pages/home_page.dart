@@ -2,6 +2,15 @@ import 'package:flutter/material.dart';
 import 'package:ottawater/core/theme/app_colors.dart';
 import 'package:ottawater/core/theme/app_icons.dart';
 import 'bottom_nav_bar.dart';
+import 'package:url_launcher/url_launcher.dart';
+
+Future<void> openLink(String url) async {
+  final Uri uri = Uri.parse(url);
+
+  if (!await launchUrl(uri, mode: LaunchMode.externalApplication)) {
+    throw "Could not launch $url";
+  }
+}
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -56,7 +65,9 @@ class _HomePageState extends State<HomePage> {
                   borderRadius: BorderRadius.circular(8),
                 ),
               ),
-              onPressed: () {},
+              onPressed: () {
+                openLink("https://hcb.hackclub.com/donations/start/redshifted");
+              },
               child: Text(
                 "DONATE",
                 style: TextStyle(

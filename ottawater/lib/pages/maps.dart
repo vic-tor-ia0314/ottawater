@@ -177,10 +177,8 @@ class _BeachMapPageState extends State<BeachMapPage> {
         ),
         children: [
           TileLayer(
-            urlTemplate:
-                "https://tiles.stadiamaps.com/tiles/alidade_smooth/{z}/{x}/{y}{r}.png",
-            userAgentPackageName: 'com.ottawater.app',
-            maxZoom: 20,
+            urlTemplate: "https://tile.openstreetmap.org/{z}/{x}/{y}.png",
+            userAgentPackageName: 'com.example.ottawater',
           ),
           MarkerLayer(markers: markers),
         ],
