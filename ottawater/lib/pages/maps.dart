@@ -24,12 +24,12 @@ class BeachMapPage extends StatefulWidget {
   const BeachMapPage({super.key});
 
   @override
-  // ignore: library_private_types_in_public_api
   _BeachMapPageState createState() => _BeachMapPageState();
 }
 
 class _BeachMapPageState extends State<BeachMapPage> {
   List<Marker> markers = [];
+  List<Beach> beaches = [];
 
   @override
   void initState() {
@@ -38,68 +38,18 @@ class _BeachMapPageState extends State<BeachMapPage> {
   }
 
   Future<void> loadData() async {
-    final beaches = await loadAndMergeCSVs();
+    final loadedBeaches = await loadAndMergeCSVs();
 
     setState(() {
+      beaches = loadedBeaches;
+
       markers = beaches.map((beach) {
         return Marker(
           width: 40,
           height: 40,
           point: LatLng(beach.lat, beach.lng),
           child: GestureDetector(
-            onTap: () {
-              getWaterQualityScore(beach.pollution);
-              showDialog(
-                context: context,
-                builder: (_) => AlertDialog(
-                  title: Text(beach.name),
-                  content: Column(
-                    mainAxisSize: MainAxisSize.min,
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        "Water Quality Score",
-                        style: TextStyle(fontWeight: FontWeight.bold),
-                      ),
-
-                      const SizedBox(height: 8),
-
-                      Text(
-                        "${getWaterQualityScore(beach.pollution)} / 100",
-                        style: TextStyle(fontSize: 22),
-                      ),
-
-                      const SizedBox(height: 8),
-
-                      LinearProgressIndicator(
-                        value: getWaterQualityScore(beach.pollution) / 100,
-                        backgroundColor: Colors.grey[300],
-                        color: getScoreColor(getWaterQualityScore(beach.pollution)),
-                        minHeight: 10,
-                      ),
-
-                      const SizedBox(height: 12),
-
-                      Text(
-                        getScoreNote(getWaterQualityScore(beach.pollution)),
-                        style: const TextStyle(fontWeight: FontWeight.w500),
-                      ),
-
-                      const SizedBox(height: 16),
-
-                      Divider(),
-
-                      const SizedBox(height: 8),
-
-                      Text(
-                        "Raw E. coli number: ${beach.pollution}",
-                        style: TextStyle(color: Colors.grey[700]),
-                      ),
-                    ],
-                  ),
-                ),
-              );
-            },
+            onTap: () => _showBeachDialog(beach),
             child: Icon(
               Icons.location_pin,
               color: getColor(beach.pollution),
@@ -110,11 +60,55 @@ class _BeachMapPageState extends State<BeachMapPage> {
       }).toList();
     });
   }
+
+  void _showBeachDialog(Beach beach) {
+    final score = getWaterQualityScore(beach.pollution);
+
+    showDialog(
+      context: context,
+      builder: (_) => AlertDialog(
+        title: Text(beach.name),
+        content: Column(
+          mainAxisSize: MainAxisSize.min,
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            const Text(
+              "Water Quality Score",
+              style: TextStyle(fontWeight: FontWeight.bold),
+            ),
+            const SizedBox(height: 8),
+            Text("$score / 100", style: const TextStyle(fontSize: 22)),
+            const SizedBox(height: 8),
+            LinearProgressIndicator(
+              value: score / 100,
+              backgroundColor: Colors.grey[300],
+              color: getScoreColor(score),
+              minHeight: 10,
+            ),
+            const SizedBox(height: 12),
+            Text(
+              getScoreNote(score),
+              style: const TextStyle(fontWeight: FontWeight.w500),
+            ),
+            const SizedBox(height: 16),
+            const Divider(),
+            const SizedBox(height: 8),
+            Text(
+              "Raw E. coli number: ${beach.pollution}",
+              style: TextStyle(color: Colors.grey[700]),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
   Color getColor(double pollution) {
     if (pollution < 100) return Colors.green;
     if (pollution < 200) return Colors.orange;
     return Colors.red;
   }
+
   double getWaterQualityScore(double pollution) {
     double score = 100 - (pollution / 3);
 
@@ -123,11 +117,13 @@ class _BeachMapPageState extends State<BeachMapPage> {
 
     return score.roundToDouble();
   }
+
   Color getScoreColor(double score) {
     if (score >= 70) return Colors.green;
     if (score >= 40) return Colors.orange;
     return Colors.red;
   }
+
   String getScoreNote(double score) {
     if (score >= 70) {
       return "Good water quality — generally safe for swimming.";
@@ -169,18 +165,59 @@ class _BeachMapPageState extends State<BeachMapPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text("Ottawa Beaches Water Quality Map", style: TextStyle(color: AppColors.textcolor))),
-      body: FlutterMap(
-        options: MapOptions(
-          initialCenter: LatLng(45.4215, -75.6972),
-          initialZoom: 11,
+      appBar: AppBar(
+        title: const Text(
+          "Ottawa Beaches Water Quality Map",
+          style: TextStyle(color: AppColors.textcolor),
         ),
+      ),
+      body: Row(
         children: [
-          TileLayer(
-            urlTemplate: "https://tile.openstreetmap.org/{z}/{x}/{y}.png",
-            userAgentPackageName: 'com.example.ottawater',
+          // LEFT SIDE: MAP
+          SizedBox(
+            width: MediaQuery.of(context).size.width * 0.45,
+            child: FlutterMap(
+              options: MapOptions(
+                initialCenter: LatLng(45.4215, -75.6972),
+                initialZoom: 11,
+              ),
+              children: [
+                TileLayer(
+                  urlTemplate: "https://tile.openstreetmap.org/{z}/{x}/{y}.png",
+                  userAgentPackageName: 'com.example.ottawater',
+                ),
+                MarkerLayer(markers: markers),
+              ],
+            ),
           ),
-          MarkerLayer(markers: markers),
+
+          // RIGHT SIDE: LIST
+          Expanded(
+            child: ListView.builder(
+              itemCount: beaches.length,
+              itemBuilder: (context, index) {
+                final beach = beaches[index];
+                getWaterQualityScore(beach.pollution);
+
+                return ListTile(
+                  leading: Icon(
+                    Icons.location_pin,
+                    color: getColor(beach.pollution),
+                  ),
+                  title: Text(beach.name),
+                  subtitle: Text("E. coli: ${beach.pollution}"),
+                  trailing: Text(
+                    "${beach.pollution}",
+                    style: TextStyle(
+                      fontWeight: FontWeight.bold,
+                      color: getColor(beach.pollution),
+                    ),
+                  ),
+                  onTap: () => _showBeachDialog(beach),
+                );
+              },
+            ),
+          ),
         ],
       ),
       bottomNavigationBar: const AppBottomNav(),

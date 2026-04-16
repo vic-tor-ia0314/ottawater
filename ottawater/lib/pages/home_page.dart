@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:ottawater/core/theme/app_colors.dart';
 import 'package:ottawater/core/theme/app_icons.dart';
-import 'package:ottawater/pages/articles.dart';
+import 'package:ottawater/pages/article1.dart';
 import 'bottom_nav_bar.dart';
 import 'package:url_launcher/url_launcher.dart';
 
