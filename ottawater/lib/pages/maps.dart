@@ -30,6 +30,7 @@ class BeachMapPage extends StatefulWidget {
 class _BeachMapPageState extends State<BeachMapPage> {
   List<Marker> markers = [];
   List<Beach> beaches = [];
+  List<Beach> selectedBeaches = [];
 
   @override
   void initState() {
@@ -49,7 +50,15 @@ class _BeachMapPageState extends State<BeachMapPage> {
           height: 40,
           point: LatLng(beach.lat, beach.lng),
           child: GestureDetector(
-            onTap: () => _showBeachDialog(beach),
+            onTap: () {
+              setState(() {
+                if (!selectedBeaches.any((b) => b.name == beach.name)) {
+                  selectedBeaches.add(beach);
+                }
+              });
+
+              _showBeachDialog(beach);
+            },
             child: Icon(
               Icons.location_pin,
               color: getColor(beach.pollution),
@@ -86,10 +95,7 @@ class _BeachMapPageState extends State<BeachMapPage> {
               minHeight: 10,
             ),
             const SizedBox(height: 12),
-            Text(
-              getScoreNote(score),
-              style: const TextStyle(fontWeight: FontWeight.w500),
-            ),
+            Text(getScoreNote(score)),
             const SizedBox(height: 16),
             const Divider(),
             const SizedBox(height: 8),
@@ -111,10 +117,8 @@ class _BeachMapPageState extends State<BeachMapPage> {
 
   double getWaterQualityScore(double pollution) {
     double score = 100 - (pollution / 3);
-
     if (score < 0) score = 0;
     if (score > 100) score = 100;
-
     return score.roundToDouble();
   }
 
@@ -158,7 +162,6 @@ class _BeachMapPageState extends State<BeachMapPage> {
         );
       }
     }
-
     return beachMap.values.toList();
   }
 
@@ -173,7 +176,6 @@ class _BeachMapPageState extends State<BeachMapPage> {
       ),
       body: Row(
         children: [
-          // LEFT SIDE: MAP
           SizedBox(
             width: MediaQuery.of(context).size.width * 0.45,
             child: FlutterMap(
@@ -190,33 +192,51 @@ class _BeachMapPageState extends State<BeachMapPage> {
               ],
             ),
           ),
-
-          // RIGHT SIDE: LIST
           Expanded(
-            child: ListView.builder(
-              itemCount: beaches.length,
-              itemBuilder: (context, index) {
-                final beach = beaches[index];
-                getWaterQualityScore(beach.pollution);
-
-                return ListTile(
-                  leading: Icon(
-                    Icons.location_pin,
-                    color: getColor(beach.pollution),
-                  ),
-                  title: Text(beach.name),
-                  subtitle: Text("E. coli: ${beach.pollution}"),
-                  trailing: Text(
-                    "${beach.pollution}",
-                    style: TextStyle(
-                      fontWeight: FontWeight.bold,
-                      color: getColor(beach.pollution),
+            child: selectedBeaches.isEmpty
+                ? const Center(
+                    child: Text(
+                      "Tap a beach marker to add it here",
+                      style: TextStyle(fontSize: 16, color: Colors.grey),
                     ),
+                  )
+                : ListView.builder(
+                    itemCount: selectedBeaches.length,
+                    itemBuilder: (context, index) {
+                      final beach = selectedBeaches[index];
+                      return ListTile(
+                        leading: Icon(
+                          Icons.location_pin,
+                          color: getColor(beach.pollution),
+                        ),
+                        title: Text(beach.name),
+                        subtitle: Text("E. coli: ${beach.pollution}"),
+                        trailing: Row(
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
+                            Text(
+                              "${beach.pollution}",
+                              style: TextStyle(
+                                fontWeight: FontWeight.bold,
+                                color: getColor(beach.pollution),
+                              ),
+                            ),
+                            IconButton(
+                              icon: const Icon(Icons.close),
+                              onPressed: () {
+                                setState(() {
+                                  selectedBeaches.removeWhere(
+                                    (b) => b.name == beach.name,
+                                  );
+                                });
+                              },
+                            ),
+                          ],
+                        ),
+                        onTap: () => _showBeachDialog(beach),
+                      );
+                    },
                   ),
-                  onTap: () => _showBeachDialog(beach),
-                );
-              },
-            ),
           ),
         ],
       ),

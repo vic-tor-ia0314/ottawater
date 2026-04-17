@@ -1,21 +1,19 @@
-import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:ottawater/core/theme/app_colors.dart';
 import 'package:ottawater/pages/articlemenu.dart';
 import 'bottom_nav_bar.dart';
-import 'package:url_launcher/url_launcher.dart';
 
 void main() {
-  runApp(const Article1());
+  runApp(const Article2());
 }
 
-class Article1 extends StatelessWidget {
-  const Article1({super.key});
+class Article2 extends StatelessWidget {
+  const Article2({super.key});
 
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Single-Use Plastics and Microplastics',
+      title: 'Clothing',
       home: const MyHomePage(),
     );
   }
@@ -34,7 +32,7 @@ class MyHomePage extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Image.asset(
-                'assets/images/plastic.webp',
+                'assets/images/clothing.webp',
                 fit: BoxFit.cover,
                 alignment: Alignment.center,
               ),
@@ -47,7 +45,7 @@ class MyHomePage extends StatelessWidget {
                   children: [
                     const TextSpan(
                       text:
-                          'Single-Use Plastics and Microplastics\n\n',
+                          'Clothing\n\n',
                       style: TextStyle(
                         decoration: TextDecoration.underline,
                         fontSize: 20,
@@ -56,7 +54,7 @@ class MyHomePage extends StatelessWidget {
                     ),
                     const TextSpan(
                       text:
-                          '\tOften, when thinking of environmental conservation, one of the first things that pop to mind is reducing single-use plastic—for instance, the transition from plastic straws to paper straws. This is not for no reason. Plastic can pollute environments for hundreds to thousands of years, impacting numerous different animals, plants, and humans.\n\n',
+                          '\tMicroplastics—small fragments of plastic less than 5 mm wide—often end up in rivers and oceans, since they can pass through many filtration systems. These small pieces of plastic can then be swallowed by sea creatures or caught in the gills of fish, harming aquatic environments. But where do microplastics come from? One of the major answers is clothing.\n\n',
                       style: TextStyle(
                         decoration: TextDecoration.none,
                         fontSize: 18,
@@ -74,7 +72,7 @@ class MyHomePage extends StatelessWidget {
                     ),
                     const TextSpan(
                       text:
-                          '\tPlastic pollution is not limited to microplastics, of course. Many people are aware of how larger pieces of plastic often choke and kill marine animals, such as sea turtles. An estimated 1 million plus sea animals die due to plastic pollution every year. This is from an approximate 75 to 199 million tons of plastic waste currently in our oceans, with a yearly increase of 33 billion pounds.\n\n',
+                          '\tThe United Nations reports that a “single laundry load of polyester clothes can discharge as many as 700 000 microplastic fibres”. The fashion industry is responsible for around 35% of the microplastics in our oceans today. Furthermore, it also emits 10% of global carbon emissions due to the exorbitant amount of textiles created annually. Reducing the number of synthetic textiles—artificial fabrics that contain plastic—and changing instead to natural fabrics can significantly reduce microplastic pollution. Furthermore, natural textiles are often more durable; this means that if demand for more durable, natural clothing is driven up and demand for synthetic fabric is reduced, less textiles will be produced overall. This will reduce carbon emissions and help mitigate the effects of climate change for everybody.\n\n',
                       style: TextStyle(
                         decoration: TextDecoration.none,
                         fontSize: 18,
@@ -83,50 +81,21 @@ class MyHomePage extends StatelessWidget {
                     ),
                     const TextSpan(
                       text:
-                          '\tAlthough all these numbers may seem frightening, there is one easy way that you can help today: reduce your use of single-use plastics. These are any plastic products that you use only one time before disposing of them. For instance, plastic grocery bags, bottled water, coffee cups, plastic straws, and more. Instead, shift to more reusable options—reusable bags, reusable water bottles, metal or glass cups and straws. Even small changes like this can result in major improvements in plastic pollution in the Ottawa River and, on a larger scale, our oceans. You can make a difference today, even if small.\n\n',
+                          '\tIt is not only the clothing itself that increases microplastic pollution, but often the way you wash it. Many of the most popular detergent brands contain these small pieces of plastic—in fact, one study investigated 300 detergents and found that a whopping 119 of them contained microplastics. Changing from big-brand detergents to plastic-free ones can make a large difference in plastic pollution in local rivers and in larger oceans.\n\n',
                       style: TextStyle(
                         decoration: TextDecoration.none,
                         fontSize: 18,
                         fontWeight: FontWeight.normal,
                       ),
                     ),
-                    TextSpan(
+                    const TextSpan(
                       text:
-                          'https://www.plasticsoupfoundation.org/en/news/it-is-estimated-that-171-trillion-microplastic-particles-float-in-the-ocean\n',
-                      style: const TextStyle(
+                          '\tThere are easy ways that you can reduce your microplastic output today. For instance, switching from synthetic textiles—of which the most common are polyester, nylon, acrylic, and fleece—to 100% natural fabrics—such as cotton, bamboo, and wool—will make a substantial difference. Furthermore, check your detergents! If they contain plastic, try to switch to a plastic-free alternative, such as Clothes Doctor or Homethings eco-detergents. Make a difference in pollution and climate change today!\n\n',
+                      style: TextStyle(
                         decoration: TextDecoration.none,
                         fontSize: 18,
                         fontWeight: FontWeight.normal,
-                        color: Colors.blue,
                       ),
-                      recognizer: TapGestureRecognizer()
-                        ..onTap = () async {
-                          final url = Uri.parse(
-                            'https://www.plasticsoupfoundation.org/en/news/it-is-estimated-that-171-trillion-microplastic-particles-float-in-the-ocean',
-                          );
-                          if (await canLaunchUrl(url)) {
-                            await launchUrl(url);
-                          }
-                        },
-                    ),
-                    TextSpan(
-                      text:
-                          'https://oceanservice.noaa.gov/facts/microplastics.html\n',
-                      style: const TextStyle(
-                        decoration: TextDecoration.none,
-                        fontSize: 18,
-                        fontWeight: FontWeight.normal,
-                        color: Colors.blue,
-                      ),
-                      recognizer: TapGestureRecognizer()
-                        ..onTap = () async {
-                          final url = Uri.parse(
-                            'https://oceanservice.noaa.gov/facts/microplastics.html',
-                          );
-                          if (await canLaunchUrl(url)) {
-                            await launchUrl(url);
-                          }
-                        },
                     ),
                   ],
                 ),
