@@ -4,6 +4,7 @@ import 'package:ottawater/core/theme/app_icons.dart';
 import 'package:ottawater/pages/articlemenu.dart';
 import 'bottom_nav_bar.dart';
 import 'package:url_launcher/url_launcher.dart';
+import 'package:lottie/lottie.dart';
 
 Future<void> openLink(String url) async {
   final Uri uri = Uri.parse(url);
@@ -112,10 +113,16 @@ class _HomePageState extends State<HomePage> {
                     color: AppColors.textcolor,
                   ),
                 ),
+
+                const SizedBox(height: 20),
+                Lottie.asset(
+                  'assets/animations/i1_animation.json',
+                  height: 150,
+                  repeat: true,
+                ),
               ],
             ),
           ),
-
           const SizedBox(height: 30),
           Expanded(
             child: BottomButtons(

@@ -16,6 +16,7 @@ dependencies:
   html: ^0.15.4
   shared_preferences: ^2.2.3
   url_launcher: ^6.3.0
+  lottie: ^3.1.0
 
 dev_dependencies:
   flutter_test:
@@ -27,5 +28,6 @@ flutter:
   assets:
     - assets/icons/
     - assets/images/
+    - assets/animations/
     - assets/WaterQuality.csv
     - assets/pollution.csv
