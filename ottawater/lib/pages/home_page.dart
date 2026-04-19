@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:ottawater/core/theme/app_colors.dart';
 import 'package:ottawater/core/theme/app_icons.dart';
+import 'package:ottawater/pages/activity.dart';
 import 'package:ottawater/pages/articlemenu.dart';
 import 'bottom_nav_bar.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -22,16 +23,40 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-  double levelProgress = 0.0; 
+  double levelProgress = 0.0;
 
-  void logActivity() {
-    setState(() {
-      levelProgress += 0.1; 
+  bool hasDiedBefore = false;
+  bool showDeathAnimation = false;
 
-      if (levelProgress > 1.0) {
-        levelProgress = 1.0;
-      }
-    });
+  Future<void> openActivityPage() async {
+    final result = await Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) => const ActivityPage(),
+      ),
+    );
+
+    if (result != null) {
+      setState(() {
+        levelProgress += result;
+
+        if (levelProgress <= 0.0) {
+          if (hasDiedBefore) {
+            showDeathAnimation = true;
+          } else {
+            hasDiedBefore = true;
+          }
+
+          levelProgress = 0.0;
+        } else {
+          showDeathAnimation = false;
+        }
+
+        if (levelProgress > 1.0) {
+          levelProgress = 1.0;
+        }
+      });
+    }
   }
 
   @override
@@ -70,7 +95,7 @@ class _HomePageState extends State<HomePage> {
               onPressed: () {
                 openLink("https://hcb.hackclub.com/donations/start/redshifted");
               },
-              child: Text(
+              child: const Text(
                 "DONATE",
                 style: TextStyle(
                   color: AppColors.textcolor,
@@ -86,6 +111,7 @@ class _HomePageState extends State<HomePage> {
       body: Column(
         children: [
           const SizedBox(height: 40),
+
           Text(
             "Welcome!",
             style: TextStyle(
@@ -106,7 +132,9 @@ class _HomePageState extends State<HomePage> {
                   color: Colors.green,
                   minHeight: 10,
                 ),
+
                 const SizedBox(height: 8),
+
                 Text(
                   "Level Progress: ${(levelProgress * 100).toInt()}%",
                   style: const TextStyle(
@@ -116,21 +144,25 @@ class _HomePageState extends State<HomePage> {
 
                 const SizedBox(height: 20),
                 Lottie.asset(
-                  'assets/animations/i1_animation.json',
+                  showDeathAnimation
+                      ? 'assets/animations/d1-animation.json'
+                      : 'assets/animations/i1_animation.json',
                   height: 150,
-                  repeat: true,
+                  repeat: !showDeathAnimation,
                 ),
               ],
             ),
           ),
+
           const SizedBox(height: 30),
+
           Expanded(
             child: BottomButtons(
               spacing: 60,
               alignment: MainAxisAlignment.end,
 
               leftButton: ElevatedButton.icon(
-                onPressed: logActivity,
+                onPressed: openActivityPage,
                 style: ElevatedButton.styleFrom(
                   backgroundColor: AppColors.button,
                   foregroundColor: AppColors.textcolor,
@@ -187,33 +219,8 @@ class _HomePageState extends State<HomePage> {
           ),
         ],
       ),
+
       bottomNavigationBar: const AppBottomNav(),
-    );
-  }
-}
-class UpperHalfCenteredText extends StatelessWidget {
-  final String text;
-  final double fontSize;
-
-  const UpperHalfCenteredText({
-    super.key,
-    required this.text,
-    this.fontSize = 24,
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    return Expanded(
-      child: Align(
-        alignment: Alignment(0, -0.4),
-        child: Text(
-          text,
-          style: TextStyle(
-            fontSize: fontSize,
-            color: AppColors.textcolor
-          ),
-        ),
-      ),
     );
   }
 }
