@@ -146,7 +146,7 @@ class _HomePageState extends State<HomePage> {
                 Lottie.asset(
                   showDeathAnimation
                       ? 'assets/animations/d1-animation.json'
-                      : 'assets/animations/i1_animation.json',
+                      : 'assets/animations/i2-animation.json',
                   height: 150,
                   repeat: !showDeathAnimation,
                 ),
