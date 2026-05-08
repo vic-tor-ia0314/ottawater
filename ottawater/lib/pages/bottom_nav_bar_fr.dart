@@ -1,0 +1,60 @@
+import 'package:flutter/material.dart';
+import 'package:ottawater/core/theme/app_colors.dart';
+import 'package:ottawater/core/theme/app_icons.dart';
+import 'package:ottawater/pages/home_page_fr.dart';
+import 'package:ottawater/pages/maps_fr.dart';
+import 'package:ottawater/pages/opps_fr.dart';
+
+class AppBottomNavFr extends StatelessWidget {
+  const AppBottomNavFr({super.key});
+
+  void _goTo(BuildContext context, int index) {
+    Widget page;
+
+    switch (index) {
+      case 0:
+        page = const HomePageFr();
+        break;
+      case 1:
+      page = const BeachMapPageFr();
+      break;
+      case 2:
+        page = const OpportunitiesPage();
+        break;
+      default:
+        return;
+    }
+
+  Navigator.pushReplacement(
+    context,
+    MaterialPageRoute(builder: (context) => page),
+  );
+}
+
+  @override
+  Widget build(BuildContext context) {
+    return BottomNavigationBar(
+      onTap: (index) => _goTo(context, index),
+
+      type: BottomNavigationBarType.fixed,
+      backgroundColor: AppColors.primary,
+      unselectedItemColor: AppColors.accent1,
+      selectedItemColor: AppColors.accent2,
+
+      items: [
+        BottomNavigationBarItem(
+          icon: Image.asset(AppIcons.home, width: 50, height: 50),
+          label: "Accueil",
+        ),
+        BottomNavigationBarItem(
+          icon: Image.asset(AppIcons.maps, width: 50, height: 50),
+          label: "Cartes",
+        ),
+        BottomNavigationBarItem(
+          icon: Image.asset(AppIcons.opps, width: 50, height: 50),
+          label: "Opportunités",
+        ),
+      ],
+    );
+  }
+}

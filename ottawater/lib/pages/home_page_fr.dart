@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:ottawater/core/theme/app_colors.dart';
 import 'package:ottawater/core/theme/app_icons.dart';
-import 'package:ottawater/pages/activity.dart';
-import 'package:ottawater/pages/articlemenu.dart';
-import 'bottom_nav_bar.dart';
-import 'package:ottawater/pages/home_page_fr.dart';
+import 'package:ottawater/pages/activity_fr.dart';
+import 'package:ottawater/pages/articlemenu_fr.dart';
+import 'bottom_nav_bar_fr.dart';
+import 'home_page.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:lottie/lottie.dart';
 
@@ -16,14 +16,14 @@ Future<void> openLink(String url) async {
   }
 }
 
-class HomePage extends StatefulWidget {
-  const HomePage({super.key});
+class HomePageFr extends StatefulWidget {
+  const HomePageFr({super.key});
 
   @override
-  State<HomePage> createState() => _HomePageState();
+  State<HomePageFr> createState() => _HomePageFrState();
 }
 
-class _HomePageState extends State<HomePage> {
+class _HomePageFrState extends State<HomePageFr> {
   double levelProgress = 0.0;
 
   bool hasDiedBefore = false;
@@ -86,12 +86,12 @@ class _HomePageState extends State<HomePage> {
         actions: [
           IconButton(
           icon: const Icon(Icons.language),
-          color: AppColors.textcolor,
+          color: AppColors.textcolor,   
           onPressed: () {
             Navigator.pushReplacement(
               context,
               MaterialPageRoute(
-                builder: (context) => const HomePageFr(),
+                builder: (context) => const HomePage(),
               ),
             );
           },
@@ -109,7 +109,7 @@ class _HomePageState extends State<HomePage> {
                 openLink("https://hcb.hackclub.com/donations/start/redshifted");
               },
               child: const Text(
-                "DONATE",
+                "DONNER",
                 style: TextStyle(
                   color: AppColors.textcolor,
                   fontSize: 16,
@@ -126,7 +126,7 @@ class _HomePageState extends State<HomePage> {
           const SizedBox(height: 40),
 
           Text(
-            "Welcome!",
+            "Bienvenue!",
             style: TextStyle(
               fontSize: 35,
               color: AppColors.textcolor,
@@ -190,7 +190,7 @@ class _HomePageState extends State<HomePage> {
                 ),
                 icon: const Icon(Icons.add, size: 28),
                 label: const Text(
-                  "Log an activity",
+                  "Enregistrer une activité",
                   style: TextStyle(
                     fontSize: 16,
                     fontWeight: FontWeight.bold,
@@ -221,7 +221,7 @@ class _HomePageState extends State<HomePage> {
                 ),
                 icon: const Icon(Icons.question_mark, size: 28),
                 label: const Text(
-                  "What can I do?",
+                  "Que puis-je faire?",
                   style: TextStyle(
                     fontSize: 16,
                     fontWeight: FontWeight.bold,
@@ -233,7 +233,7 @@ class _HomePageState extends State<HomePage> {
         ],
       ),
 
-      bottomNavigationBar: const AppBottomNav(),
+      bottomNavigationBar: const AppBottomNavFr(),
     );
   }
 }
